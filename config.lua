@@ -43,6 +43,7 @@ lvim.lang.javascriptreact.formatters = lvim.lang.javascript.formatters
 lvim.lang.typescriptreact.formatters = lvim.lang.javascript.formatters
 lvim.lang.vue.formatters = lvim.lang.javascript.formatters
 lvim.lang.css.formatters = lvim.lang.javascript.formatters
+vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
 -- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
 -- lvim.builtin.telescope.on_config_done = function()
 --   local actions = require "telescope.actions"
