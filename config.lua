@@ -37,7 +37,7 @@ lvim.builtin.compe.autocomplete = true
 lvim.lang.javascript.formatters = {
   {
     exe = "prettier",
-    args = lvim.lang.javascript.formatters[1].args,
+  --  args = lvim.lang.javascript.formatters[1].args,
   },
 }
 lvim.lang.typescript.formatters = lvim.lang.javascript.formatters
