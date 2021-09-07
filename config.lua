@@ -3,7 +3,7 @@
 -- general
 lvim.format_on_save = true
 lvim.lint_on_save = true
-lvim.colorscheme = "spacegray"
+--lvim.colorscheme = "spacegray"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
@@ -32,7 +32,6 @@ lvim.builtin.nvimtree.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.bufferline.active = true
 lvim.builtin.compe.autocomplete = true
-
 -- Javascript/Typescript CSS/SCSS Formatter Settings
 lvim.lang.javascript.formatters = {
   {
@@ -47,16 +46,33 @@ lvim.lang.vue.formatters = lvim.lang.javascript.formatters
 lvim.lang.css.formatters = lvim.lang.javascript.formatters
 vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
 
+local autosave = require("autosave")
 
+autosave.setup(
+    {
+        enabled = true,
+        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
+        events = {"InsertLeave", "TextChanged"},
+        conditions = {
+            exists = true,
+            filetype_is_not = {},
+            modifiable = true
+        },
+        write_all_buffers = false,
+        on_off_commands = true,
+        clean_command_line_interval = 0,
+        debounce_delay = 135
+    }
+)
 
 lvim.builtin.treesitter.ensure_installed = {}
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-
 -- Additional Plugins
 lvim.plugins = {
 	{ "godlygeek/tabular" },
 	{ "lunarvim/colorschemes" },
+	{ "sainnhe/gruvbox-material" },
 	{ "folke/tokyonight.nvim" },
 	{
 		"ray-x/lsp_signature.nvim",
@@ -65,6 +81,9 @@ lvim.plugins = {
 		end,
 		event = "InsertEnter",
 	},
+ {
+  "Pocco81/AutoSave.nvim",
+},
     {
     "nvim-telescope/telescope-project.nvim",
     event = "BufWinEnter",
