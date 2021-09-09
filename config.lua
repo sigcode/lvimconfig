@@ -46,25 +46,6 @@ lvim.lang.vue.formatters = lvim.lang.javascript.formatters
 lvim.lang.css.formatters = lvim.lang.javascript.formatters
 vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
 
-local autosave = require("autosave")
-
-autosave.setup(
-    {
-        enabled = true,
-        execution_message = "AutoSave: saved at " .. vim.fn.strftime("%H:%M:%S"),
-        events = {"InsertLeave", "TextChanged"},
-        conditions = {
-            exists = true,
-            filetype_is_not = {},
-            modifiable = true
-        },
-        write_all_buffers = false,
-        on_off_commands = true,
-        clean_command_line_interval = 0,
-        debounce_delay = 135
-    }
-)
-
 lvim.builtin.treesitter.ensure_installed = {}
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
@@ -81,9 +62,6 @@ lvim.plugins = {
 		end,
 		event = "InsertEnter",
 	},
- {
-  "Pocco81/AutoSave.nvim",
-},
     {
     "nvim-telescope/telescope-project.nvim",
     event = "BufWinEnter",
