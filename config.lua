@@ -16,27 +16,7 @@ lvim.colorscheme = "onedarker"
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
 -- add your own keymapping
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
-lvim.keys.normal_mode["<S-Tab>"] = ":bprevious<cr>"
-lvim.keys.normal_mode["<C-j>"] = ":+15<cr>"
-lvim.keys.normal_mode["<C-k>"] = ":-15<cr>"
-vim.opt.relativenumber = true
-vim.o.tabstop = 4
-vim.o.shiftwidth = 4
-vim.o.expandtab = true
-lvim.builtin.tabnine = { active = true}
-lvim.lang.javascript.formatters = {
-  {
-    exe = "prettier",
-  --  args = lvim.lang.javascript.formatters[1].args,
-  },
-}
-lvim.lang.typescript.formatters = lvim.lang.javascript.formatters
-lvim.lang.javascriptreact.formatters = lvim.lang.javascript.formatters
-lvim.lang.typescriptreact.formatters = lvim.lang.javascript.formatters
-lvim.lang.vue.formatters = lvim.lang.javascript.formatters
-lvim.lang.css.formatters = lvim.lang.javascript.formatters
-vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = ""
 -- edit a default keymapping
@@ -55,28 +35,6 @@ vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { norem
 --   lvim.builtin.telescope.defaults.mappings.n["<C-k>"] = actions.move_selection_previous
 -- end
 
-lvim.plugins = {
-	{ "godlygeek/tabular" },
-	{ "lunarvim/colorschemes" },
-	{ "sainnhe/gruvbox-material" },
-	{ "folke/tokyonight.nvim" },
-	{
-		"ray-x/lsp_signature.nvim",
-		config = function()
-			require("lsp_signature").on_attach()
-		end,
-		event = "InsertEnter",
-	},
-    {
-      "norcalli/nvim-colorizer.lua",
-        config = function()
-      require("user.colorizer").config()
-        end,
-    },
-    {
-      "nvim-lua/lsp-status.nvim",
-    }
-}
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 -- lvim.builtin.which_key.mappings["t"] = {
@@ -93,14 +51,35 @@ lvim.plugins = {
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.side = "left"
+lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
-lvim.builtin.treesitter.ensure_installed = "maintained"
+lvim.builtin.treesitter.ensure_installed = {
+  "bash",
+  "c",
+  "javascript",
+  "json",
+  "lua",
+  "python",
+  "typescript",
+  "css",
+  "rust",
+  "java",
+  "yaml",
+}
+
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
+lvim.keys.normal_mode["<S-Tab>"] = ":bprevious<cr>"
+lvim.keys.normal_mode["<C-j>"] = ":+15<cr>"
+lvim.keys.normal_mode["<C-k>"] = ":-15<cr>"
+vim.opt.relativenumber = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+lvim.builtin.tabnine = { active = true}
 -- generic LSP settings
 -- you can set a custom on_attach function that will be used for all the language servers
 -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -141,13 +120,20 @@ lvim.builtin.treesitter.highlight.enabled = true
 -- }
 
 -- Additional Plugins
--- lvim.plugins = {
+ lvim.plugins = {
 --     {"folke/tokyonight.nvim"},
 --     {
 --       "folke/trouble.nvim",
 --       cmd = "TroubleToggle",
 --     },
--- }
+    { "godlygeek/tabular" },
+    {
+      "norcalli/nvim-colorizer.lua",
+        config = function()
+      require("user.colorizer").config()
+        end,
+    },
+ }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- lvim.autocommands.custom_groups = {
