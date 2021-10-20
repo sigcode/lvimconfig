@@ -17,6 +17,16 @@ lvim.colorscheme = "onedarker"
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
+
+lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
+lvim.keys.normal_mode["<S-Tab>"] = ":bprevious<cr>"
+lvim.keys.normal_mode["<C-j>"] = ":+15<cr>"
+lvim.keys.normal_mode["<C-k>"] = ":-15<cr>"
+vim.opt.relativenumber = true
+vim.o.tabstop = 4
+vim.o.shiftwidth = 4
+vim.o.expandtab = true
+lvim.builtin.tabnine = { active = true}
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = ""
 -- edit a default keymapping
@@ -68,6 +78,7 @@ lvim.builtin.treesitter.ensure_installed = {
   "java",
   "yaml",
 }
+vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
