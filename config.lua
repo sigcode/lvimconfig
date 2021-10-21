@@ -63,7 +63,9 @@ lvim.builtin.dashboard.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
-
+lvim.builtin.autopairs.active = true
+lvim.builtin.dap.active = true
+lvim.builtin.bufferline.active = true
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -79,7 +81,8 @@ lvim.builtin.treesitter.ensure_installed = {
   "yaml",
 }
 vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
-
+lvim.lsp.automatic_servers_installation = true
+lvim.lsp.override =  { "phpactor" }
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
@@ -91,6 +94,20 @@ vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
 lvim.builtin.tabnine = { active = true}
+
+local formatters = require "lvim.lsp.null-ls.formatters"
+formatters.setup({{exe = "prettier", filetypes = {"javascript", "json"} }})
+lvim.lang.javascript.formatters = {
+  {
+    exe = "prettier",
+  --  args = lvim.lang.javascript.formatters[1].args,
+  },
+}
+lvim.lang.typescript.formatters = lvim.lang.javascript.formatters
+lvim.lang.javascriptreact.formatters = lvim.lang.javascript.formatters
+lvim.lang.typescriptreact.formatters = lvim.lang.javascript.formatters
+lvim.lang.vue.formatters = lvim.lang.javascript.formatters
+lvim.lang.css.formatters = lvim.lang.javascript.formatters
 -- generic LSP settings
 -- you can set a custom on_attach function that will be used for all the language servers
 -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -144,6 +161,13 @@ lvim.builtin.tabnine = { active = true}
       require("user.colorizer").config()
         end,
     },
+    {
+		"ray-x/lsp_signature.nvim",
+		config = function()
+			require("lsp_signature").on_attach()
+		end,
+		event = "InsertEnter",
+	},
  }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
