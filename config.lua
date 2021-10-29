@@ -83,6 +83,11 @@ lvim.builtin.treesitter.ensure_installed = {
 vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
 lvim.lsp.automatic_servers_installation = true
 lvim.lsp.override =  { "phpactor" }
+lvim.lsp.override =  { "rome" }
+lvim.lsp.override =  { "eslint" }
+lvim.lsp.override =  { "ember" }
+lvim.lsp.override =  { "denols" }
+lvim.lsp.override =  { "stylelint_lsp" }
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
