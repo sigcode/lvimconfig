@@ -26,7 +26,11 @@ vim.opt.relativenumber = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
-lvim.builtin.tabnine = { active = true}
+vim.cmd([[
+
+imap <silent><script><expr> <C-n> copilot#Accept("\<CR>")
+        let g:copilot_no_tab_map = v:true
+]])
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = ""
 -- edit a default keymapping
@@ -66,6 +70,7 @@ lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.autopairs.active = true
 lvim.builtin.dap.active = true
 lvim.builtin.bufferline.active = true
+
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -76,12 +81,10 @@ lvim.builtin.treesitter.ensure_installed = {
   "python",
   "typescript",
   "css",
-  "rust",
   "java",
-  "yaml",
 }
 vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
-lvim.lsp.automatic_servers_installation = true
+lvim.lsp.automatic_servers_installation = false
 lvim.lsp.override =  { "phpactor" }
 lvim.lsp.override =  { "rome" }
 lvim.lsp.override =  { "eslint" }
@@ -98,21 +101,9 @@ vim.opt.relativenumber = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
-lvim.builtin.tabnine = { active = true}
 
 local formatters = require "lvim.lsp.null-ls.formatters"
-formatters.setup({{exe = "prettier", filetypes = {"javascript", "json"} }})
-lvim.lang.javascript.formatters = {
-  {
-    exe = "prettier",
-  --  args = lvim.lang.javascript.formatters[1].args,
-  },
-}
-lvim.lang.typescript.formatters = lvim.lang.javascript.formatters
-lvim.lang.javascriptreact.formatters = lvim.lang.javascript.formatters
-lvim.lang.typescriptreact.formatters = lvim.lang.javascript.formatters
-lvim.lang.vue.formatters = lvim.lang.javascript.formatters
-lvim.lang.css.formatters = lvim.lang.javascript.formatters
+formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "scss", "jsx"} }})
 -- generic LSP settings
 -- you can set a custom on_attach function that will be used for all the language servers
 -- See <https://github.com/neovim/nvim-lspconfig#keybindings-and-completion>
@@ -159,6 +150,7 @@ lvim.lang.css.formatters = lvim.lang.javascript.formatters
 --       "folke/trouble.nvim",
 --       cmd = "TroubleToggle",
 --     },
+ {"github/copilot.vim"},
     { "godlygeek/tabular" },
     {
       "norcalli/nvim-colorizer.lua",
