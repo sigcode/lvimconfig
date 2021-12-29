@@ -7,14 +7,16 @@ a global executable or a path to
 an executable
 ]]
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
-
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "onedarker"
+-- require "user.cmp"
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
+require "user.bufferline"
+require "user.quickscope"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
@@ -26,11 +28,12 @@ vim.opt.relativenumber = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
-vim.cmd([[
+lvim.keys.insert_mode["<C-n>"] = "copilot#Accept()<CR>";
+--vim.cmd [[
+--let g:copilot_no_tab_map = v:true
+--  let g:copilot_assume_mapped = v:true
+--]]
 
-imap <silent><script><expr> <C-n> copilot#Accept("\<CR>")
-        let g:copilot_no_tab_map = v:true
-]])
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = ""
 -- edit a default keymapping
@@ -60,7 +63,30 @@ imap <silent><script><expr> <C-n> copilot#Accept("\<CR>")
 --   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
 --   w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
 -- }
-
+local cmp = require "cmp"
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+vim.g.copilot_tab_fallback = ""
+lvim.builtin.cmp.mapping["<C-e>"] = function(fallback)
+  cmp.mapping.abort()
+  local copilot_keys = vim.fn["copilot#Accept"]()
+  if copilot_keys ~= "" then
+    vim.api.nvim_feedkeys(copilot_keys, "i", true)
+  else
+    fallback()
+  end
+end
+lvim.builtin.treesitter.rainbow = {
+  enable = true,
+  colors = {
+    "Gold",
+    "Orchid",
+    "DodgerBlue",
+    -- "Cornsilk",
+    -- "Salmon",
+    -- "LawnGreen",
+  },
+}
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
@@ -69,8 +95,9 @@ lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.autopairs.active = true
 lvim.builtin.dap.active = true
+lvim.builtin.telescope.defaults.path_display = { "smart" }
 lvim.builtin.bufferline.active = true
-
+lvim.builtin.fancy_statusline = { active = true }
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
@@ -93,10 +120,6 @@ lvim.lsp.override =  { "denols" }
 lvim.lsp.override =  { "stylelint_lsp" }
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
-lvim.keys.normal_mode["<C-s>"] = ":w<cr>"lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
-lvim.keys.normal_mode["<S-Tab>"] = ":bprevious<cr>"
-lvim.keys.normal_mode["<C-j>"] = ":+15<cr>"
-lvim.keys.normal_mode["<C-k>"] = ":-15<cr>"
 vim.opt.relativenumber = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
@@ -150,8 +173,15 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
 --       "folke/trouble.nvim",
 --       cmd = "TroubleToggle",
 --     },
+{
+    "unblevable/quick-scope",
+    config = function()
+      require "user.quickscope"
+    end,
+  },
  {"github/copilot.vim"},
     { "godlygeek/tabular" },
+     { "ChristianChiarulli/nvim-ts-rainbow" },
     {
       "norcalli/nvim-colorizer.lua",
         config = function()
@@ -165,6 +195,13 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
 		end,
 		event = "InsertEnter",
 	},
+     {
+    "lukas-reineke/indent-blankline.nvim",
+    -- event = "BufReadPre",
+    config = function()
+      require("user.blankline").config()
+    end,
+  },
  }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
