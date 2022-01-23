@@ -17,22 +17,16 @@ lvim.colorscheme = "onedarker"
 lvim.leader = "space"
 require "user.bufferline"
 require "user.quickscope"
+require "user.lsp_signature"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 
 lvim.keys.normal_mode["<Tab>"] = ":bnext<cr>"
 lvim.keys.normal_mode["<S-Tab>"] = ":bprevious<cr>"
-lvim.keys.normal_mode["<C-j>"] = ":+15<cr>"
-lvim.keys.normal_mode["<C-k>"] = ":-15<cr>"
 vim.opt.relativenumber = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
-lvim.keys.insert_mode["<C-n>"] = "copilot#Accept()<CR>";
---vim.cmd [[
---let g:copilot_no_tab_map = v:true
---  let g:copilot_assume_mapped = v:true
---]]
 
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = ""
@@ -54,15 +48,12 @@ lvim.keys.insert_mode["<C-n>"] = "copilot#Accept()<CR>";
 
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = {
---   name = "+Trouble",
---   r = { "<cmd>Trouble lsp_references<cr>", "References" },
---   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble lsp_document_diagnostics<cr>", "Diagnostics" },
---   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
---   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble lsp_workspace_diagnostics<cr>", "Diagnostics" },
--- }
+lvim.builtin.which_key.mappings["F"] = {
+  name = "+Telescope",
+  f = { "<cmd>Telescope find_files<cr>", "Find Files" },
+  g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
+  b = { "<cmd>Telescope buffers<cr>", "Buffer Search" },
+}
 local cmp = require "cmp"
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
@@ -76,17 +67,6 @@ lvim.builtin.cmp.mapping["<C-e>"] = function(fallback)
     fallback()
   end
 end
-lvim.builtin.treesitter.rainbow = {
-  enable = true,
-  colors = {
-    "Gold",
-    "Orchid",
-    "DodgerBlue",
-    -- "Cornsilk",
-    -- "Salmon",
-    -- "LawnGreen",
-  },
-}
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.dashboard.active = true
@@ -94,6 +74,7 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.show_icons.git = 0
 lvim.builtin.autopairs.active = true
+lvim.builtin.lualine.style = "lvim"
 lvim.builtin.dap.active = true
 lvim.builtin.telescope.defaults.path_display = { "smart" }
 lvim.builtin.bufferline.active = true
@@ -179,6 +160,12 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
       require "user.quickscope"
     end,
   },
+  {
+    "karb94/neoscroll.nvim",
+    config = function()
+      require("user.neoscroll").config()
+    end,
+  },
  {"github/copilot.vim"},
     { "godlygeek/tabular" },
      { "ChristianChiarulli/nvim-ts-rainbow" },
@@ -191,10 +178,17 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
     {
 		"ray-x/lsp_signature.nvim",
 		config = function()
-			require("lsp_signature").on_attach()
+			require("user.lsp_signature").config()
 		end,
 		event = "InsertEnter",
 	},
+    {
+    "nacro90/numb.nvim",
+    event = "BufRead",
+    config = function()
+      require("user.numb").config()
+    end,
+  },
      {
     "lukas-reineke/indent-blankline.nvim",
     -- event = "BufReadPre",
@@ -202,6 +196,12 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
       require("user.blankline").config()
     end,
   },
+    {"nvim-telescope/telescope-fzy-native.nvim",
+        config = function()
+           require("user.telescope").config()
+        end,
+    }
+
  }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)

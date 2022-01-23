@@ -17,18 +17,22 @@ vim.g.bufferline = {
   -- Excludes buffers from the tabline
   -- exclude_ft = { "javascript" },
   -- exclude_name = { "package.json" },
-
+  diagnostics = "nvim_lsp",
   -- Enable/disable icons
   -- if set to 'numbers', will show buffer index in the tabline
   -- if set to 'both', will show buffer index and icons in the tabline
-  -- icons = "both",
+   icons = "both",
 
   -- If set, the icon color will follow its corresponding buffer
   -- highlight group. By default, the Buffer*Icon group is linked to the
   -- Buffer* group (see Highlighting below). Otherwise, it will take its
   -- default value as defined by devicons.
-  icon_custom_colors = false,
-
+  icon_custom_colors = true,
+diagnostics_indicator = function(count, level, diagnostics_dict, context)
+  local icon = level:match("error") and " " or " "
+  return " " .. icon .. count
+    end,
+seperator_sytle ="slant",
   -- Configure icons on the bufferline.
   icon_separator_active = "▎",
   icon_separator_inactive = "▎",
