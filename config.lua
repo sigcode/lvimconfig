@@ -196,11 +196,6 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
       require("user.blankline").config()
     end,
   },
-    {"nvim-telescope/telescope-fzy-native.nvim",
-        config = function()
-           require("user.telescope").config()
-        end,
-    }
 
  }
 
