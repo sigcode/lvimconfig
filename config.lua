@@ -196,7 +196,18 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
       require("user.blankline").config()
     end,
   },
-
+{
+  "nvim-telescope/telescope-fzy-native.nvim",
+  run = "make",
+  event = "BufRead",
+},
+    {
+  "ahmedkhalf/lsp-rooter.nvim",
+  event = "BufRead",
+  config = function()
+    require("lsp-rooter").setup()
+  end,
+},
  }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
