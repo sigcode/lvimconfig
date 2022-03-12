@@ -48,12 +48,8 @@ vim.o.expandtab = true
 
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
-lvim.builtin.which_key.mappings["F"] = {
-  name = "+Telescope",
-  f = { "<cmd>Telescope find_files<cr>", "Find Files" },
-  g = { "<cmd>Telescope live_grep<cr>", "Live Grep" },
-  b = { "<cmd>Telescope buffers<cr>", "Buffer Search" },
-}
+lvim.builtin.which_key.mappings["f"] = { "<cmd>Telescope find_files<cr>", "File Search" }
+lvim.builtin.which_key.mappings["F"] = { "<cmd>Rg<cr>", "Ripgrep" }
 local cmp = require "cmp"
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
@@ -166,6 +162,8 @@ formatters.setup({{exe = "prettier", filetypes = {"javascript", "json", "css", "
       require("user.neoscroll").config()
     end,
   },
+{"junegunn/fzf"},
+{"junegunn/fzf.vim"},
  {"github/copilot.vim"},
     { "godlygeek/tabular" },
      { "ChristianChiarulli/nvim-ts-rainbow" },
