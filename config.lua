@@ -48,6 +48,10 @@ vim.o.expandtab = true
 
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
+
+lvim.keys.normal_mode["<C-e>"] = "<Nop>"
+lvim.keys.normal_mode["<C-r>"] = "<Nop>"
+lvim.keys.normal_mode["<C-r>"] = "<cmd>Copilot panel<CR>"
 lvim.builtin.which_key.mappings["f"] = { "<cmd>Telescope find_files<cr>", "File Search" }
 lvim.builtin.which_key.mappings["F"] = { "<cmd>Rg<cr>", "Ripgrep" }
 local cmp = require "cmp"
