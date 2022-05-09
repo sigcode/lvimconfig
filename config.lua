@@ -51,7 +51,9 @@ vim.o.expandtab = true
 
 lvim.keys.normal_mode["<C-e>"] = "<Nop>"
 lvim.keys.normal_mode["<C-r>"] = "<Nop>"
+lvim.keys.insert_mode["<C-r>"] = "<Nop>"
 lvim.keys.normal_mode["<C-r>"] = "<cmd>Copilot panel<CR>"
+lvim.keys.insert_mode["<C-r>"] = "<cmd>Copilot panel<CR>"
 lvim.builtin.which_key.mappings["f"] = { "<cmd>Telescope find_files<cr>", "File Search" }
 lvim.builtin.which_key.mappings["F"] = { "<cmd>Rg<cr>", "Ripgrep" }
 local cmp = require "cmp"
@@ -59,13 +61,13 @@ vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.g.copilot_tab_fallback = ""
 lvim.builtin.cmp.mapping["<C-e>"] = function(fallback)
-  cmp.mapping.abort()
-  local copilot_keys = vim.fn["copilot#Accept"]()
-  if copilot_keys ~= "" then
-    vim.api.nvim_feedkeys(copilot_keys, "i", true)
-  else
-    fallback()
-  end
+ cmp.mapping.abort()
+ local copilot_keys = vim.fn["copilot#Accept"]()
+ if copilot_keys ~= "" then
+   vim.api.nvim_feedkeys(copilot_keys, "i", true)
+ else
+   fallback()
+ end
 end
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
@@ -92,12 +94,7 @@ lvim.builtin.treesitter.ensure_installed = {
 }
 vim.api.nvim_set_keymap("n", "<ESC>", ":nohls | :setlocal nospell<ESC>", { noremap = true, silent = true })
 lvim.lsp.automatic_servers_installation = false
-lvim.lsp.override =  { "phpactor" }
-lvim.lsp.override =  { "rome" }
-lvim.lsp.override =  { "eslint" }
-lvim.lsp.override =  { "ember" }
-lvim.lsp.override =  { "denols" }
-lvim.lsp.override =  { "stylelint_lsp" }
+lvim.lsp.automatic_configuration.skipped_servers =  { "phpactor", "rome", "eslint", "ember", "denols", "stylelint_lsp" }
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
 vim.opt.relativenumber = true
